@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='432.00pt' height='288.00pt' viewBox='0 0 432.00 288.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw0MzIuMDB8MC4wMHwyODguMDA='>
+    <rect x='0.00' y='0.00' width='432.00' height='288.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw0MzIuMDB8MC4wMHwyODguMDA=)'>
+<rect x='0.000000000000032' y='0.00' width='432.00' height='288.00' style='stroke-width: 1.16; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNDEuNjF8NDI2LjAyfDUuOTh8MjUyLjY1'>
+    <rect x='41.61' y='5.98' width='384.41' height='246.67' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDEuNjF8NDI2LjAyfDUuOTh8MjUyLjY1)'>
+<rect x='41.61' y='5.98' width='384.41' height='246.67' style='stroke-width: 1.16; stroke: none; fill: #FFFFFF;' />
+<line x1='146.45' y1='155.75' x2='146.45' y2='104.09' style='stroke-width: 1.07; stroke: #30123B; stroke-linecap: butt;' />
+<line x1='146.45' y1='194.79' x2='146.45' y2='241.44' style='stroke-width: 1.07; stroke: #30123B; stroke-linecap: butt;' />
+<polygon points='80.93,155.75 80.93,194.79 211.98,194.79 211.98,155.75 80.93,155.75 ' style='stroke-width: 1.07; stroke: #30123B; stroke-linecap: butt; stroke-linejoin: miter; fill: #30123B; fill-opacity: 0.50;' />
+<line x1='80.93' y1='181.64' x2='211.98' y2='181.64' style='stroke-width: 2.13; stroke: #30123B; stroke-linecap: butt; stroke-linejoin: miter;' />
+<circle cx='321.18' cy='122.09' r='1.95' style='stroke-width: 0.71; stroke: #7A0403; stroke-opacity: 0.50; fill: #7A0403; fill-opacity: 0.50;' />
+<line x1='321.18' y1='179.73' x2='321.18' y2='129.31' style='stroke-width: 1.07; stroke: #7A0403; stroke-linecap: butt;' />
+<line x1='321.18' y1='213.79' x2='321.18' y2='241.44' style='stroke-width: 1.07; stroke: #7A0403; stroke-linecap: butt;' />
+<polygon points='255.66,179.73 255.66,213.79 386.71,213.79 386.71,179.73 255.66,179.73 ' style='stroke-width: 1.07; stroke: #7A0403; stroke-linecap: butt; stroke-linejoin: miter; fill: #7A0403; fill-opacity: 0.50;' />
+<line x1='255.66' y1='196.59' x2='386.71' y2='196.59' style='stroke-width: 2.13; stroke: #7A0403; stroke-linecap: butt; stroke-linejoin: miter;' />
+<circle cx='321.18' cy='197.11' r='3.56' style='stroke-width: 0.71; fill: #7A0403;' />
+<circle cx='146.45' cy='178.83' r='3.56' style='stroke-width: 0.71; fill: #30123B;' />
+</g>
+<g clip-path='url(#cpMC4wMHw0MzIuMDB8MC4wMHwyODguMDA=)'>
+<text x='36.23' y='244.88' text-anchor='end' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='5.34px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='36.23' y='188.82' text-anchor='end' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='10.67px' lengthAdjust='spacingAndGlyphs'>25</text>
+<text x='36.23' y='132.76' text-anchor='end' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='10.67px' lengthAdjust='spacingAndGlyphs'>50</text>
+<text x='36.23' y='76.69' text-anchor='end' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='10.67px' lengthAdjust='spacingAndGlyphs'>75</text>
+<text x='36.23' y='20.63' text-anchor='end' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='16.01px' lengthAdjust='spacingAndGlyphs'>100</text>
+<text x='146.45' y='264.91' text-anchor='middle' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='41.59px' lengthAdjust='spacingAndGlyphs'>PR voting</text>
+<text x='321.18' y='264.91' text-anchor='middle' style='font-size: 9.60px;fill: #4D4D4D; font-family: "Arial";' textLength='23.99px' lengthAdjust='spacingAndGlyphs'>Other</text>
+<text transform='translate(14.59,129.31) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='136.73px' lengthAdjust='spacingAndGlyphs'>Seats held by women (%)</text>
+<text x='426.02' y='279.90' text-anchor='end' style='font-size: 9.60px; font-family: "Arial";' textLength='71.97px' lengthAdjust='spacingAndGlyphs'>Data: QOG 2024</text>
+</g>
+</svg>

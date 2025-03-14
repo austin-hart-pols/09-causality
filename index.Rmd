@@ -24,11 +24,33 @@ output:
     eval = T, 
     echo = F,
     fig.align = 'center', 
-    dev = 'svglite'
+    dev = 'svglite',
+    fig.path = 'images/'
   )
+  
+  library(tidyverse)
+  library(haven)
   xaringanExtra::use_panelset()
+  
+  df <- read_dta('qog std cs jan24.dta') %>%
+    mutate(
+      womenrep = wdi_wip,
+      PR = case_when(
+        br_pvote == 0 ~ 'Other',
+        br_pvote == 1 ~ 'PR voting'
+      ),
+      dem = vdem_polyarchy,
+      gdpcap = log(wdi_gdpcapcon2015),
+      west = ht_region == 5,
+      .keep = 'none'
+    )
+  
+  dmeans <-
+    df %>%
+    group_by(PR) %>%
+    summarise(avg = mean(womenrep, na.rm = T)) %>%
+    na.omit()
 ```
-
 
 
 class: partial-bg50, middle
@@ -40,178 +62,206 @@ knitr::include_graphics("assets/classlogo.png")
 ]
 
 .pull-right[
-# 01 - Introductions
+# 09 - Causality and statistics
 
-- Purpose of the course
-
-- "Basement Tapes" discussion
-
-- Syllabus, etc
-
-- Scientific inquiry
+- Thinking scientifically  
+- FPCI  
+  - Define causal effect  
+  - Potential outcomes framework
+- Confronting FPCI  
+- EX: Cohen & Dupas
 
 ]
 
+---
+# Preview
+
+### Causality is a hell of a thing
+
+- It is impossible to observe a causal effect directly (FPCI).
+
+- Inferring causation requires untestable assumptions.
+
+- Is that causal? Rule out three alternatives
+
+- Valid causal inference starts with research design.
+
+
 
 ---
-# What's the purpose of this course?
+class: inverse
+
+class: inverse, middle, left
+
+# Thinking scientfically  
+
+
+---
+# The process  
+
+- Causal questions: what is the effect of X on Y?
+
+- Theory and hypotheses
+  - **Theory** as baseline
+  - **Hypotheses** as specific predictions
+  
+- Data gathering
+  - Research design
+  - Data collection
+  
+- Analysis
+  
+- Inference 
+  
+  
+  
+---
+# Inferences and validity
+
+> I gather data for a study. For the cases I observe, I see a relationship between two variables, T and Y.
+
+- **Causal inference:** attribution of an effect to a cause *within a study*. I infer that exposing the units in my sample to different values of T caused a change in Y.
+
+- **External validity inference:** extending the results *beyond the study* to other:  
+  - populations  
+  - treatments  
+  - outcomes  
+  - contexts  
+
+
+---
+class: inverse, middle, left
+
+# Fundamental Problem of Causal Inference
+
+
+---
+# Define a causal effect
+
+For any individual, $i$, we could observe 
+
+- $Y_{i,T=1}$, $i$'s response to treatment $(T=1)$
+- $Y_{i,T=0}$, $i$'s response to control $(T=0)$
+
+Calculate the causal effect of treatment on the measured outcome $Y$ as:  
+
+$$Y_{i,T=1} - Y_{i,T=0}$$
+
+
+---
+# Why causality is unobservable
+
+> We can observe a unit's response to treatment  $(Y_{i,T=1})$. 
+> Or... we can observe the response without treatment $(Y_{i,T=2})$. 
+> We cannot observe both for the same unit at the same time.  
+
+- We can observe, at most, one *potential outcome*.  
+
+- **IMPOSSIBLE to observe a causal effect directly**
+
+- NOTE: Causal inference requires...
+  - comparison: treatment 1 versus 2
+  - counterfactual reasoning: what would have happened instead
+  - potential exposability: units could receive any value of treatment
+  
+  
+---
+# Recovering the counterfactual
+
+### Scientific solutions  
+
+- Compare response across two units, $i$ and $j$: $Y_{i,T=1} - Y_{j,T=2}$  
+- Expose unit to both treatments in sequence: $Y_{i,T=1,t} - Y_{i,T=2,t+1}$    
+
+
+### Statistical solution
+
+- Estimate the **Average Treatment Effect** over a large number of sampled units.
+
+$$SATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=2]$$
+
+
+---
+class: inverse, middle, left
+
+# FPCI in practice
+
+
+---
+# Establishing internal validity 
+
+> I evaluate the relationship between prorportional voting systems (PR) and women's representation. On average, women hold 28% of seats in countries using PR versus 20% in countries without PR. Is this 8-point gap the causal effect of PR voting? 
+
+### Alternative explanations to consider:  
+
+- Bias due to reverse causality
+
+- Bias due to confounding (selection/endogeneity)   
+
+- Coincidence
+
+
+---
+# The estimated association
 
 .pull-left[
-### Introduce empirical research
+```{r gapplot, fig.dim=c(6,4), fig.cap="Women's rep higher with PR elections"}
+df %>%
+  na.omit() %>%
+  ggplot(aes(x = fct_rev(PR), y = womenrep, color = fct_rev(PR), fill = fct_rev(PR))) +
+  geom_boxplot(alpha = .5) +
+  geom_point(data = dmeans, aes(y = avg), size = 3, shape = 21, color = 'black') +
+  scale_y_continuous(limits = c(0,100)) +
+  scale_fill_viridis_d(option = 'H') +
+  scale_color_viridis_d(option = 'H') +
+  labs(x = NULL,
+       y = 'Seats held by women (%)',
+       caption = 'Data: QOG 2024') +
+  theme_classic(base_size = 12) +
+  theme(legend.position = 'none',axis.line = element_blank(), axis.ticks = element_blank(),)
 
-- **STATISTICS**
-  - Field concerned with collecting and analyzing data  
-  - Focused on variation and uncertainty
-
-- **THE RESEARCH PROCESS**  
-  - Roots in the scientific project  
-  - From question to findings  
-  - Evaluating research
-
-
-]
-
-.pull-right[
-### Support University mission
-
-- Research is the best of what we do
-
-- Asking and answering questions is still a radical act!
-
-- Scientific inquiry *can* support and strengthen free-thinking society
-]
-
-
----
-# Basement Tapes
-### In-class discussion
-
-1. What theory motivates Frantz’s study? Identify the key cause and the outcome he seeks to explain.  
-2. What did Frantz know from prior studies, and why were those findings seen as incomplete or insufficient?  
-3. How does Frantz test his core hypothesis? Be specific about the design of his elaborate study.  
-4. What do his results show? What are we to make of the findings? 
-
-For reference: [podcast](https://www.pushkin.fm/podcasts/revisionist-history/the-basement-tapes#play) (S2E10) and [study results](https://www.ahajournals.org/doi/pdf/10.1161/01.atv.9.1.129)
-
----
-# Get to know the course
-
-- Let's visit the [living course syllabus](https://docs.google.com/document/d/1V5JLruDU9m9_eSnQqXQZ5-yDZCGlc9GZOQsVNcf3C7Q/edit?usp=sharing)
-
-- Expectations for class  
-  - We begin on time  
-  - Take notes and ask questions  
-  - Leave Slacks, chats, etc. behind
-
-- Outside of class  
-  - Do the reading  
-  - Give yourself time to do assignments  
-  - Be in touch!  
-
----
-class: inverse, middle
-
-# Foundations of scientific inquiry
-
-1. Where does science come from?  
-2. What defines scientific research?  
-
-
----
-# Origins of the modern scientific project
-
-.pull-left[
-
-```{r, out.width="70%"}
-knitr::include_graphics("assets/bacon.jpg")
 ```
-
 ]
 
-.pull-right[
+.pull-right[]
 
-### Bacon's new empiricism
-
-- Knowledge through observation and experimentation
-
-- Inductive reasoning
-  - Move from specific to general 
-  - Probabilistic claims    
-  - Conclusions open to new evidence
-  
-- Progress by rejecting bad ideas 
-
-]
 
 ---
-# Logic and structure of scientific inquiry
+# Bias due to reverse causality
 
-.panelset[
-.panel[.panel-name[Process]
+- Exists when the outcome is acting on the proposed cause. $X \leftrightarrow Y$
+- If $Y$ determines exposure to $X$, then the correlation reflects the effect of $Y$ on $X$ in full or in part.
 
-- Question and expectations
+> Could women's representation cause choice of electoral system?
 
-- Study 
-  - Research design (plan)  
-  - Data collection  
-  - Analysis  
-  
-- Report findings  
 
-- New questions
+---
+# Bias due to confounding
 
-]
+- Selection/confounding bias exists when:
+  - Treatment groups differ systematically by some factor, $Z$
+  - *AND* $Z$ is a cause of $Y$
+- In this case, the estimated effect of $X$ on $Y$ erroneously captures the influence of $Z$.
 
-.panel[.panel-name[Question]
+> Is there a variable related to electoral system that might also, independently, impact women's representation?
 
-.pull-left[ 
-- Study "effects of causes"
-  - Exposure variable: cause, $X$
-  - Outcome variable: effect, $Y$
 
-- Theory: what we *think* we know about $X \rightarrow Y$
+---
+# Cosmic coincidence
 
-- Hypotheses: observable implications of theory
-]
+> Could we see this relationship to chance alone?
 
-.pull-right[
+Necessary solutions:  
+- Test of statistical significance. 
+- Specify plausible causal mechanism.  
 
-> **Theories** are general stories about the way things work. 
 
-> **Hypotheses** are specific predictions, derived from theory, about what we should see in the data.
+---
+# Example: Cohen and Dupas
 
-]
-]
-
-.panel[.panel-name[Study]
+- Central question
 
 - Research design
-  - *Experiment (RCT)*: the researcher exposes units to different values of treatment at random.    
-  - *Observational*: the researcher observes and records values of the variables as they are.  
-
-- Data collection  
-
-- Statistical analysis  
-  - Characterize the relationship  
-  - Is it systematic? 
-
-]
-
-.panel[.panel-name[Report]
-
-- Answer your question given the analysis
-
-- Consider the validity of your conclusion  
-  - Internal validity: have you ruled out alternative explanations and sources of bias?  
-  - External validity: do the results generalize to other cases, places, treatments, and outcomes?
-
-- What do your findings mean for extant theory?
-
-]
-]
-
-
-
 
 ---
 class: partial-bg50, middle, center
@@ -236,3 +286,24 @@ class: partial-bg50, middle, center
 <br><br><br>
 
 ]
+
+
+---
+# Multiple regression
+
+```{r}
+mods <-
+  list(
+    `(1)` = lm(womenrep ~ PR, df),
+    `(2)` = lm(womenrep ~ PR + dem + gdpcap + west, df)
+  )
+
+cm <- c('PRPR voting' = 'PR voting',
+        'dem' = 'Liberal democracy',
+        'gdpcap' = 'GDP per capita',
+        'westTRUE' = 'Western world',
+        '(Intercept)' = '(Intercept)')
+
+library(modelsummary)
+modelsummary(mods, gof_map = c('nobs'), coef_map = cm, stars = TRUE, output = 'gt')
+```
