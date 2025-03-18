@@ -32,24 +32,6 @@ output:
   library(haven)
   xaringanExtra::use_panelset()
   
-  df <- read_dta('qog std cs jan24.dta') %>%
-    mutate(
-      womenrep = wdi_wip,
-      PR = case_when(
-        br_pvote == 0 ~ 'Other',
-        br_pvote == 1 ~ 'PR voting'
-      ),
-      dem = vdem_polyarchy,
-      gdpcap = log(wdi_gdpcapcon2015),
-      west = ht_region == 5,
-      .keep = 'none'
-    )
-  
-  dmeans <-
-    df %>%
-    group_by(PR) %>%
-    summarise(avg = mean(womenrep, na.rm = T)) %>%
-    na.omit()
 ```
 
 
@@ -66,7 +48,7 @@ knitr::include_graphics("assets/classlogo.png")
 
 - Thinking scientifically  
 - FPCI  
-  - Define causal effect  
+  - Defining "cause"  
   - Potential outcomes framework
 - Confronting FPCI  
 - EX: Cohen & Dupas
@@ -74,9 +56,7 @@ knitr::include_graphics("assets/classlogo.png")
 ]
 
 ---
-# Preview
-
-### Causality is a hell of a thing
+# Causality is a hell of a thing
 
 - It is impossible to observe a causal effect directly (FPCI).
 
@@ -89,8 +69,6 @@ knitr::include_graphics("assets/classlogo.png")
 
 
 ---
-class: inverse
-
 class: inverse, middle, left
 
 # Thinking scientfically  
@@ -99,7 +77,8 @@ class: inverse, middle, left
 ---
 # The process  
 
-- Causal questions: what is the effect of X on Y?
+- Causal questions: what is the effect of X on Y?  
+  Note: quantitative projects come from quantitative questions
 
 - Theory and hypotheses
   - **Theory** as baseline
@@ -140,10 +119,10 @@ class: inverse, middle, left
 
 For any individual, $i$, we could observe 
 
-- $Y_{i,T=1}$, $i$'s response to treatment $(T=1)$
-- $Y_{i,T=0}$, $i$'s response to control $(T=0)$
+- $Y_{i,T=1}$, $i$'s response to treatment $(T=1)$  
+- $Y_{i,T=0}$, $i$'s response to control $(T=0)$  
 
-Calculate the causal effect of treatment on the measured outcome $Y$ as:  
+Define the causal effect of treatment on measured outcome $Y$ as:  
 
 $$Y_{i,T=1} - Y_{i,T=0}$$
 
@@ -152,7 +131,7 @@ $$Y_{i,T=1} - Y_{i,T=0}$$
 # Why causality is unobservable
 
 > We can observe a unit's response to treatment  $(Y_{i,T=1})$. 
-> Or... we can observe the response without treatment $(Y_{i,T=2})$. 
+> Or... we can observe the response without treatment $(Y_{i,T=0})$. 
 > We cannot observe both for the same unit at the same time.  
 
 - We can observe, at most, one *potential outcome*.  
@@ -169,16 +148,14 @@ $$Y_{i,T=1} - Y_{i,T=0}$$
 # Recovering the counterfactual
 
 ### Scientific solutions  
-
 - Compare response across two units, $i$ and $j$: $Y_{i,T=1} - Y_{j,T=2}$  
-- Expose unit to both treatments in sequence: $Y_{i,T=1,t} - Y_{i,T=2,t+1}$    
-
+- ..or.. Expose unit to both treatments in sequence: $Y_{i,T=1,t} - Y_{i,T=2,t+1}$    
+- Assumptions required?
 
 ### Statistical solution
-
 - Estimate the **Average Treatment Effect** over a large number of sampled units.
-
-$$SATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=2]$$
+$$ATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=0]$$
+- Assumptions required?
 
 
 ---
@@ -190,79 +167,50 @@ class: inverse, middle, left
 ---
 # Establishing internal validity 
 
-> I evaluate the relationship between prorportional voting systems (PR) and women's representation. On average, women hold 28% of seats in countries using PR versus 20% in countries without PR. Is this 8-point gap the causal effect of PR voting? 
-
-### Alternative explanations to consider:  
-
-- Bias due to reverse causality
-
-- Bias due to confounding (selection/endogeneity)   
-
-- Coincidence
-
-
----
-# The estimated association
-
 .pull-left[
-```{r gapplot, fig.dim=c(6,4), fig.cap="Women's rep higher with PR elections"}
-df %>%
-  na.omit() %>%
-  ggplot(aes(x = fct_rev(PR), y = womenrep, color = fct_rev(PR), fill = fct_rev(PR))) +
-  geom_boxplot(alpha = .5) +
-  geom_point(data = dmeans, aes(y = avg), size = 3, shape = 21, color = 'black') +
-  scale_y_continuous(limits = c(0,100)) +
-  scale_fill_viridis_d(option = 'H') +
-  scale_color_viridis_d(option = 'H') +
-  labs(x = NULL,
-       y = 'Seats held by women (%)',
-       caption = 'Data: QOG 2024') +
-  theme_classic(base_size = 12) +
-  theme(legend.position = 'none',axis.line = element_blank(), axis.ticks = element_blank(),)
+### A causal effect?
+> Support for democracy is 10 points lower in countries exposed to high levels of Foreign Authoritarian Influence. Is this a causal effect of FAI? Possibly, yes.  
 
-```
 ]
 
-.pull-right[]
+.pull-right[
+### Alternative explanations:  
 
-
----
-# Bias due to reverse causality
-
-- Exists when the outcome is acting on the proposed cause. $X \leftrightarrow Y$
-- If $Y$ determines exposure to $X$, then the correlation reflects the effect of $Y$ on $X$ in full or in part.
-
-> Could women's representation cause choice of electoral system?
-
-
----
-# Bias due to confounding
-
-- Selection/confounding bias exists when:
-  - Treatment groups differ systematically by some factor, $Z$
-  - *AND* $Z$ is a cause of $Y$
-- In this case, the estimated effect of $X$ on $Y$ erroneously captures the influence of $Z$.
-
-> Is there a variable related to electoral system that might also, independently, impact women's representation?
-
+- **Bias due to reverse causality** $X \leftarrow Y$  
+  If $Y$ determines exposure to $X$, even in part, the correlation reflects the effect of $Y$ on $X$.   
+  
+- **Bias due to confounding** $X \leftarrow Z \rightarrow Y$   
+  - Treatment groups differ by some factor, $Z$, which is a cause of $Y$
+  - Correlation of $X$ and $Y$ captures the influence of $Z$.  
+  
+- **Coincidence: cosmic happenstance?** 
+  Is there a causal mechanism to link $\Delta X$ to $\Delta Y$?
+]
 
 ---
-# Cosmic coincidence
+# Role of research design
 
-> Could we see this relationship to chance alone?
+- Experiments
+  - Randomize unit's exposure to treatment
+  - Control to ensure comparability
 
-Necessary solutions:  
-- Test of statistical significance. 
-- Specify plausible causal mechanism.  
-
+- Observational studies
+  - Careful case selection  
+  - Condition on observables, (e.g., multiple regression)
 
 ---
-# Example: Cohen and Dupas
+# Examples: work through together
 
-- Central question
+- For the below: identify causal claim and one alternative explanation they fail to rule out.
+  - Kindle could cost you
+  - Every mass shooting...
 
-- Research design
-
+- Cohen and Dupas  
+  - Central question
+  - Motivation  
+  - Research design (and role of design)
+  - Findings  
+  
 ---
 class: partial-bg50, middle, center
 
@@ -288,22 +236,3 @@ class: partial-bg50, middle, center
 ]
 
 
----
-# Multiple regression
-
-```{r}
-mods <-
-  list(
-    `(1)` = lm(womenrep ~ PR, df),
-    `(2)` = lm(womenrep ~ PR + dem + gdpcap + west, df)
-  )
-
-cm <- c('PRPR voting' = 'PR voting',
-        'dem' = 'Liberal democracy',
-        'gdpcap' = 'GDP per capita',
-        'westTRUE' = 'Western world',
-        '(Intercept)' = '(Intercept)')
-
-library(modelsummary)
-modelsummary(mods, gof_map = c('nobs'), coef_map = cm, stars = TRUE, output = 'gt')
-```

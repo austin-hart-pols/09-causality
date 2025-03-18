@@ -40,18 +40,15 @@ class: partial-bg50, middle
 
 - Thinking scientifically  
 - FPCI  
-  - Define causal impact  
-  - Potential outcomes
-  - Exposability  
-  - Path to causal inference
+  - Defining "cause"  
+  - Potential outcomes framework
 - Confronting FPCI  
+- EX: Cohen &amp; Dupas
 
 ]
 
 ---
-# Preview
-
-### Causality is a hell of a thing
+# Causality is a hell of a thing
 
 - It is impossible to observe a causal effect directly (FPCI).
 
@@ -64,8 +61,6 @@ class: partial-bg50, middle
 
 
 ---
-class: inverse
-
 class: inverse, middle, left
 
 # Thinking scientfically  
@@ -74,7 +69,8 @@ class: inverse, middle, left
 ---
 # The process  
 
-- Causal questions: what is the effect of X on Y?
+- Causal questions: what is the effect of X on Y?  
+  Note: quantitative projects come from quantitative questions
 
 - Theory and hypotheses
   - **Theory** as baseline
@@ -115,10 +111,10 @@ class: inverse, middle, left
 
 For any individual, `\(i\)`, we could observe 
 
-- `\(Y_{i,T=1}\)`, `\(i\)`'s response to treatment `\((T=1)\)`
-- `\(Y_{i,T=0}\)`, `\(i\)`'s response to control `\((T=0)\)`
+- `\(Y_{i,T=1}\)`, `\(i\)`'s response to treatment `\((T=1)\)`  
+- `\(Y_{i,T=0}\)`, `\(i\)`'s response to control `\((T=0)\)`  
 
-Calculate the causal effect of treatment on the measured outcome `\(Y\)` as:  
+Define the causal effect of treatment on measured outcome `\(Y\)` as:  
 
 `$$Y_{i,T=1} - Y_{i,T=0}$$`
 
@@ -127,7 +123,7 @@ Calculate the causal effect of treatment on the measured outcome `\(Y\)` as:
 # Why causality is unobservable
 
 &gt; We can observe a unit's response to treatment  `\((Y_{i,T=1})\)`. 
-&gt; Or... we can observe the response without treatment `\((Y_{i,T=2})\)`. 
+&gt; Or... we can observe the response without treatment `\((Y_{i,T=0})\)`. 
 &gt; We cannot observe both for the same unit at the same time.  
 
 - We can observe, at most, one *potential outcome*.  
@@ -144,16 +140,14 @@ Calculate the causal effect of treatment on the measured outcome `\(Y\)` as:
 # Recovering the counterfactual
 
 ### Scientific solutions  
-
 - Compare response across two units, `\(i\)` and `\(j\)`: `\(Y_{i,T=1} - Y_{j,T=2}\)`  
-- Expose unit to both treatments in sequence: `\(Y_{i,T=1,t} - Y_{i,T=2,t+1}\)`    
-
+- ..or.. Expose unit to both treatments in sequence: `\(Y_{i,T=1,t} - Y_{i,T=2,t+1}\)`    
+- Assumptions required?
 
 ### Statistical solution
-
 - Estimate the **Average Treatment Effect** over a large number of sampled units.
-
-`$$SATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=2]$$`
+`$$ATE = Avg_n[Y_i|T_i=1] - Avg_n[Y_i|T_i=0]$$`
+- Assumptions required?
 
 
 ---
@@ -165,59 +159,50 @@ class: inverse, middle, left
 ---
 # Establishing internal validity 
 
-&gt; I evaluate the relationship between prorportional voting systems (PR) and women's representation. On average, women hold 28% of seats in countries using PR versus 20% in countries without PR. Is this 8-point gap the causal effect of PR voting? 
-
-### Alternative explanations to consider:  
-
-- Bias due to reverse causality
-
-- Bias due to confounding (selection/endogeneity)   
-
-- Coincidence
-
-
----
-# The estimated association
-
 .pull-left[
-&lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="images/gapplot-1.svg" alt="Women's rep higher with PR elections"  /&gt;
-&lt;p class="caption"&gt;Women's rep higher with PR elections&lt;/p&gt;
-&lt;/div&gt;
+### A causal effect?
+&gt; Support for democracy is 10 points lower in countries exposed to high levels of Foreign Authoritarian Influence. Is this a causal effect of FAI? Possibly, yes.  
+
 ]
 
-.pull-right[]
+.pull-right[
+### Alternative explanations:  
 
-
----
-# Bias due to reverse causality
-
-- Exists when the outcome is acting on the proposed cause. `\(X \leftrightarrow Y\)`
-- If `\(Y\)` determines exposure to `\(X\)`, then the correlation reflects the effect of `\(Y\)` on `\(X\)` in full or in part.
-
-&gt; Could women's representation cause choice of electoral system?
-
-
----
-# Bias due to confounding
-
-- Selection/confounding bias exists when:
-  - Treatment groups differ systematically by some factor, `\(Z\)`
-  - *AND* `\(Z\)` is a cause of `\(Y\)`
-- In this case, the estimated effect of `\(X\)` on `\(Y\)` erroneously captures the influence of `\(Z\)`.
-
-&gt; Is there a variable related to electoral system that might also, independently, impact women's representation?
-
+- **Bias due to reverse causality** `\(X \leftarrow Y\)`  
+  If `\(Y\)` determines exposure to `\(X\)`, even in part, the correlation reflects the effect of `\(Y\)` on `\(X\)`.   
+  
+- **Bias due to confounding** `\(X \leftarrow Z \rightarrow Y\)`   
+  - Treatment groups differ by some factor, `\(Z\)`, which is a cause of `\(Y\)`
+  - Correlation of `\(X\)` and `\(Y\)` captures the influence of `\(Z\)`.  
+  
+- **Coincidence: cosmic happenstance?** 
+  Is there a causal mechanism to link `\(\Delta X\)` to `\(\Delta Y\)`?
+]
 
 ---
-# Cosmic coincidence
+# Role of research design
 
-&gt; Could we see this relationship to chance alone?
+- Experiments
+  - Randomize unit's exposure to treatment
+  - Control to ensure comparability
 
-Necessary solutions:  
-- Test of statistical significance. 
-- Specify plausible causal mechanism.  
+- Observational studies
+  - Careful case selection  
+  - Condition on observables, (e.g., multiple regression)
 
+---
+# Examples: work through together
+
+- For the below: identify causal claim and one alternative explanation they fail to rule out.
+  - Kindle could cost you
+  - Every mass shooting...
+
+- Cohen and Dupas  
+  - Central question
+  - Motivation  
+  - Research design (and role of design)
+  - Findings  
+  
 ---
 class: partial-bg50, middle, center
 
@@ -243,500 +228,6 @@ class: partial-bg50, middle, center
 ]
 
 
----
-# Multiple regression
-
-<div id="ammzujmmkq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ammzujmmkq table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#ammzujmmkq thead, #ammzujmmkq tbody, #ammzujmmkq tfoot, #ammzujmmkq tr, #ammzujmmkq td, #ammzujmmkq th {
-  border-style: none;
-}
-
-#ammzujmmkq p {
-  margin: 0;
-  padding: 0;
-}
-
-#ammzujmmkq .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#ammzujmmkq .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#ammzujmmkq .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#ammzujmmkq .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#ammzujmmkq .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#ammzujmmkq .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#ammzujmmkq .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#ammzujmmkq .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#ammzujmmkq .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#ammzujmmkq .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#ammzujmmkq .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#ammzujmmkq .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#ammzujmmkq .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#ammzujmmkq .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#ammzujmmkq .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ammzujmmkq .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#ammzujmmkq .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#ammzujmmkq .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#ammzujmmkq .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ammzujmmkq .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#ammzujmmkq .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ammzujmmkq .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#ammzujmmkq .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ammzujmmkq .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ammzujmmkq .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ammzujmmkq .gt_left {
-  text-align: left;
-}
-
-#ammzujmmkq .gt_center {
-  text-align: center;
-}
-
-#ammzujmmkq .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#ammzujmmkq .gt_font_normal {
-  font-weight: normal;
-}
-
-#ammzujmmkq .gt_font_bold {
-  font-weight: bold;
-}
-
-#ammzujmmkq .gt_font_italic {
-  font-style: italic;
-}
-
-#ammzujmmkq .gt_super {
-  font-size: 65%;
-}
-
-#ammzujmmkq .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#ammzujmmkq .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#ammzujmmkq .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#ammzujmmkq .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#ammzujmmkq .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#ammzujmmkq .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#ammzujmmkq .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=" "> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="(1)">(1)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="(2)">(2)</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers=" " class="gt_row gt_left">PR voting</td>
-<td headers="(1)" class="gt_row gt_center">8.155***</td>
-<td headers="(2)" class="gt_row gt_center">6.413***</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="(1)" class="gt_row gt_center">(1.677)</td>
-<td headers="(2)" class="gt_row gt_center">(1.819)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">Liberal democracy</td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">-3.636</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">(4.372)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">GDP per capita</td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">0.363</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">(0.781)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">Western world</td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">10.982***</td></tr>
-    <tr><td headers=" " class="gt_row gt_left"></td>
-<td headers="(1)" class="gt_row gt_center"></td>
-<td headers="(2)" class="gt_row gt_center">(3.254)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">(Intercept)</td>
-<td headers="(1)" class="gt_row gt_center">19.766***</td>
-<td headers="(2)" class="gt_row gt_center">18.691**</td></tr>
-    <tr><td headers=" " class="gt_row gt_left" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;"></td>
-<td headers="(1)" class="gt_row gt_center" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(1.180)</td>
-<td headers="(2)" class="gt_row gt_center" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000000;">(6.254)</td></tr>
-    <tr><td headers=" " class="gt_row gt_left">Num.Obs.</td>
-<td headers="(1)" class="gt_row gt_center">188</td>
-<td headers="(2)" class="gt_row gt_center">166</td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="3">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td>
-    </tr>
-  </tfoot>
-  
-</table>
-</div>
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
